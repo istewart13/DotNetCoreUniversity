@@ -34,6 +34,11 @@ namespace DotNetCoreUniversity.Controllers
             }
 
             var student = await _context.Students
+                // load the Enrollments navigation property
+                .Include(s => s.Enrollments)
+                // within each Enrollment, load the Course navigation property
+                .ThenInclude(e => e.Course)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (student == null)
             {
